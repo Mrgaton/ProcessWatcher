@@ -10,7 +10,7 @@ namespace ProcessWatcher
 {
     internal class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
             Console.Title = "Process watcher";
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -22,6 +22,7 @@ namespace ProcessWatcher
 
             Thread.Sleep(-1);
         }
+
         private static void StartProcessWatcher()
         {
             try
@@ -51,7 +52,7 @@ namespace ProcessWatcher
                         sb.AppendLine("\"" + Convert.ToBase64String((byte[])info.Value) + "\"");
                     }
                     else
-                    { 
+                    {
                         sb.AppendLine("\"" + info.Value + "\"");
                     }
                 }
@@ -75,7 +76,9 @@ namespace ProcessWatcher
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(sb.ToString());
         }
+
         public static string GetCommandLine(Process process) => new ManagementObjectSearcher("SELECT CommandLine FROM Win32_Process WHERE ProcessId = " + process.Id).Get().Cast<ManagementBaseObject>().SingleOrDefault()?["CommandLine"]?.ToString();
+
         internal static void ProcessExited(object sender, System.EventArgs e)
         {
             Console.WriteLine("Proces exited " + e.ToString());
